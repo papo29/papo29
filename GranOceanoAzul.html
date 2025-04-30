@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Gran Océano Azul - 20 animales</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #E0F7FA;
+      color: #00796B;
+      text-align: center;
+      padding: 20px;
+    }
+    .game-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .animal img {
+      width: 250px;
+      height: auto;
+      border: 2px solid #009688;
+      border-radius: 8px;
+    }
+    .choices {
+      margin-top: 20px;
+    }
+    .choice {
+      background-color: #00796B;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .choice:hover {
+      background-color: #004D40;
+    }
+    #feedback {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    #score {
+      margin-top: 20px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>¡Ayuda a los animales marinos!</h1>
+    <p>Identifica el hábitat de cada animal: ¿Agua Dulce o Agua Salada?</p>
+
+    <div id="animal-image" class="animal">
+      <img src="delfin.jpg" alt="Delfín">
+    </div>
+
+    <div class="choices">
+      <button class="choice" id="agua-dulce">Agua Dulce</button>
+      <button class="choice" id="agua-salada">Agua Salada</button>
+    </div>
+
+    <div id="feedback"></div>
+    <div id="score">Puntaje: 0</div>
+  </div>
+
+  <script>
+    let score = 0;
+    let currentAnimalIndex = 0;
+
+    const animals = [
+      { name: "Delfín", habitat: "salada", image: "delfin.jpg" },
+      { name: "Rana", habitat: "dulce", image: "rana.jpg" },
+      { name: "Pulpo", habitat: "salada", image: "pulpo.jpg" },
+      { name: "Trucha", habitat: "dulce", image: "trucha.jpg" },
+      { name: "Tiburón", habitat: "salada", image: "tiburon.jpg" },
+      { name: "Carpa", habitat: "dulce", image: "carpa.jpg" },
+      { name: "Caballito de mar", habitat: "salada", image: "caballito.jpg" },
+      { name: "Pez dorado", habitat: "dulce", image: "pez_dorado.jpg" },
+      { name: "Langosta", habitat: "salada", image: "langosta.jpg" },
+      { name: "Bagre", habitat: "dulce", image: "bagre.jpg" },
+      { name: "Atún", habitat: "salada", image: "atun.jpg" },
+      { name: "Salamandra", habitat: "dulce", image: "salamandra.jpg" },
+      { name: "Medusa", habitat: "salada", image: "medusa.jpg" },
+      { name: "Camarón de río", habitat: "dulce", image: "camaron_rio.jpg" },
+      { name: "Ballena", habitat: "salada", image: "ballena.jpg" },
+      { name: "Pez gato", habitat: "dulce", image: "pez_gato.jpg" },
+      { name: "Mero", habitat: "salada", image: "mero.jpg" },
+      { name: "Anguila de río", habitat: "dulce", image: "anguila_rio.jpg" },
+      { name: "Estrella de mar", habitat: "salada", image: "estrella.jpg" },
+      { name: "Sapo", habitat: "dulce", image: "sapo.jpg" }
+    ];
+
+    const animalImage = document.getElementById('animal-image');
+    const feedback = document.getElementById('feedback');
+    const scoreDisplay = document.getElementById('score');
+
+    document.getElementById('agua-dulce').addEventListener('click', () => checkAnswer('dulce'));
+    document.getElementById('agua-salada').addEventListener('click', () => checkAnswer('salada'));
+
+    function checkAnswer(answer) {
+      const currentAnimal = animals[currentAnimalIndex];
+      if (answer === currentAnimal.habitat) {
+        feedback.textContent = `¡Correcto! El ${currentAnimal.name} vive en agua ${currentAnimal.habitat}.`;
+        score++;
+      } else {
+        feedback.textContent = `Incorrecto. El ${currentAnimal.name} vive en agua ${currentAnimal.habitat}.`;
+      }
+
+      currentAnimalIndex++;
+
+      if (currentAnimalIndex < animals.length) {
+        setTimeout(() => {
+          updateGame();
+        }, 2000);
+      } else {
+        setTimeout(() => {
+          feedback.textContent = `¡Juego terminado! Tu puntaje es: ${score}`;
+          animalImage.innerHTML = '';
+        }, 2000);
+      }
+    }
+
+    function updateGame() {
+      const currentAnimal = animals[currentAnimalIndex];
+      animalImage.innerHTML = `<img src="${currentAnimal.image}" alt="${currentAnimal.name}">`;
+      feedback.textContent = '';
+      scoreDisplay.textContent = `Puntaje: ${score}`;
+    }
+  </script>
+</body>
+</html>
