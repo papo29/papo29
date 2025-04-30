@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Gran Océano Azul - 20 animales</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #E0F7FA;
+      color: #00796B;
+      text-align: center;
+      padding: 20px;
+    }
+    .game-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .animal img {
+      width: 250px;
+      height: auto;
+      border: 2px solid #009688;
+      border-radius: 8px;
+    }
+    .choices {
+      margin-top: 20px;
+    }
+    .choice {
+      background-color: #00796B;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .choice:hover {
+      background-color: #004D40;
+    }
+    #feedback {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+    #score {
+      margin-top: 20px;
+      font-size: 22px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>¡Ayuda a los animales marinos!</h1>
+    <p>Identifica el hábitat de cada animal: ¿Agua Dulce o Agua Salada?</p>
+
+    <div id="animal-image" class="animal">
+      <!-- Imagen inicial: Delfín -->
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Common_dolphin_noaa.jpg/640px-Common_dolphin_noaa.jpg" alt="Delfín">
+    </div>
+
+    <div class="choices">
+      <button class="choice" id="agua-dulce">Agua Dulce</button>
+      <button class="choice" id="agua-salada">Agua Salada</button>
+    </div>
+
+    <div id="feedback"></div>
+    <div id="score">Puntaje: 0</div>
+  </div>
+
+  <script>
+    let score = 0;
+    let currentAnimalIndex = 0;
+
+    const animals = [
+      { name: "Delfín",        habitat: "salada", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Common_dolphin_noaa.jpg/640px-Common_dolphin_noaa.jpg" },
+      { name: "Rana",          habitat: "dulce",  image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Rana_temporaria1.jpg/640px-Rana_temporaria1.jpg" },
+      { name: "Pulpo",         habitat: "salada", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Octopus2.jpg/640px-Octopus2.jpg" },
+      { name: "Trucha",        habitat: "dulce",  image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Salmo_trutta_fario.jpg/640px-Salmo_trutta_fario.jpg" },
+      { name: "Tiburón",       habitat: "salada", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/White_shark.jpg/640px-White_shark.jpg" },
+      { name: "Carpa",         habitat: "dulce",  image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Koi_%28carp%29_up-close.jpg/640px-Koi_%28carp%29_up-close.jpg" },
+      { name: "Caballito de mar",habitat:"salada", image:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Hippocampus_erectus.jpg/640px-Hippocampus_erectus.jpg" },
+      { name: "Pez dorado",    habitat: "dulce",  image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Goldfish3.jpg/640px-Goldfish3.jpg" },
+      { name: "Langosta",      habitat: "salada", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Lobster_blue.jpg/640px-Lobster_blue.jpg" },
+      { name: "Bagre",         habitat: "dulce",  image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Catfish_silhouette.png/640px-Catfish_silhouette.png" },
+      { name: "Atún",          habitat: "salada", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Thunnus_albacares.jpg/640px-Thunnus_albacares.jpg" },
+      { name: "Salamandra",    habitat: "dulce",  image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Salamandra_salamandra_salamandra.jpg/640px-Salamandra_salamandra_salamandra.jpg" },
+      { name: "Medusa",        habitat: "salada", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Chrysaora_quadrigata.jpg/640px-Chrysaora_quadrigata.jpg" },
+      { name: "Camarón de río",habitat: "dulce",  image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Crayfish1.jpg/640px-Crayfish1.jpg" },
+      { name: "Ballena",       habitat: "salada", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Humpback_whale_underwater_shot.jpg/640px-Humpback_whale_underwater_shot.jpg" },
+      { name: "Pez gato",      habitat: "dulce",  image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Ameiurus_nebulosus2.jpg/640px-Ameiurus_nebulosus2.jpg" },
+      { name: "Mero",          habitat: "salada", image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Epinephelus_morio.jpg/640px-Epinephelus_morio.jpg" },
+      { name: "Anguila de río",habitat: "dulce",  image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Anguilla_anguila.jpg/640px-Anguilla_anguila.jpg" },
+      { name: "Estrella de mar",habitat:"salada", image:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Asterias_rubens.jpg/640px-Asterias_rubens.jpg" },
+      { name: "Sapo",          habitat: "dulce",  image: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Bufo_bufo01.jpg/640px-Bufo_bufo01.jpg" }
+    ];
+
+    const animalImage = document.getElementById('animal-image');
+    const feedback    = document.getElementById('feedback');
+    const scoreDisplay= document.getElementById('score');
+
+    document.getElementById('agua-dulce').addEventListener('click', () => checkAnswer('dulce'));
+    document.getElementById('agua-salada').addEventListener('click', () => checkAnswer('salada'));
+
+    function checkAnswer(answer) {
+      const current = animals[currentAnimalIndex];
+      if (answer === current.habitat) {
+        feedback.textContent = `¡Correcto! El ${current.name} vive en agua ${current.habitat}.`;
+        score++;
+      } else {
+        feedback.textContent = `Incorrecto. El ${current.name} vive en agua ${current.habitat}.`;
+      }
+      currentAnimalIndex++;
+      if (currentAnimalIndex < animals.length) {
+        setTimeout(updateGame, 2000);
+      } else {
+        setTimeout(() => {
+          feedback.textContent = `¡Juego terminado! Tu puntaje es: ${score} de ${animals.length}.`;
+          animalImage.innerHTML = '';
+        }, 2000);
+      }
+    }
+
+    function updateGame() {
+      const current = animals[currentAnimalIndex];
+      animalImage.innerHTML = `<img src="${current.image}" alt="${current.name}">`;
+      feedback.textContent = '';
+      scoreDisplay.textContent = `Puntaje: ${score}`;
+    }
+  </script>
+</body>
+</html>
