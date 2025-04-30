@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Gran Océano Azul</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <h1>¡Ayuda a los animales marinos!</h1>
+    <p>Identifica el hábitat de cada animal: ¿Agua Dulce o Agua Salada?</p>
+    
+    <div id="animal-image" class="animal">
+      <img src="delfin.jpg" alt="Delfín">
+    </div>
+
+    <div class="choices">
+      <button class="choice" id="agua-dulce">Agua Dulce</button>
+      <button class="choice" id="agua-salada">Agua Salada</button>
+    </div>
+
+    <div id="feedback"></div>
+    <div id="score">Puntaje: 0</div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
