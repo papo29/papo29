@@ -1,0 +1,45 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #E0F7FA;
+  color: #00796B;
+  text-align: center;
+  padding: 20px;
+}
+
+.game-container {
+  margin-top: 50px;
+}
+
+.animal img {
+  width: 200px;
+  height: auto;
+}
+
+.choices {
+  margin-top: 20px;
+}
+
+.choice {
+  background-color: #00796B;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.choice:hover {
+  background-color: #004D40;
+}
+
+#feedback {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+#score {
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: bold;
+}
